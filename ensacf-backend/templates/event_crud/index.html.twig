@@ -1,45 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Event index{% endblock %}
+{% block title %}Gestion des événements{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .event-table {
+        margin-top: 20px;
+    }
+    .event-table th, .event-table td {
+        vertical-align: middle;
+    }
+    .btn-action {
+        margin-right: 5px;
+    }
+    .btn-primary-custom {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+    .btn-primary-custom:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    .btn-secondary-custom {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+    }
+    .btn-secondary-custom:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+</style>
+{% endblock %}
 
 {% block body %}
-    <h1>Event index</h1>
+<div class="container">
+    <h1 class="my-4">Gestion des événements</h1>
 
-    <table class="table">
-        <thead>
+    <table class="table table-striped event-table">
+        <thead class="thead-dark">
             <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Location</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th>actions</th>
+                <th scope="col">Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Type</th>
+                <th scope="col">Description</th>
+                <th scope="col">Location</th>
+                <th scope="col">StartDate</th>
+                <th scope="col">EndDate</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for event in events %}
             <tr>
-                <td>{{ event.id }}</td>
+                <th scope="row">{{ event.id }}</th>
                 <td>{{ event.title }}</td>
                 <td>{{ event.type }}</td>
                 <td>{{ event.description }}</td>
                 <td>{{ event.location }}</td>
-                <td>{{ event.startDate ? event.startDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ event.startDate ? event.startDate|date('d/m/Y H:i') : '' }}</td>
+                <td>{{ event.endDate ? event.endDate|date('d/m/Y H:i') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_event_crud_show', {'id': event.id}) }}">show</a>
-                    <a href="{{ path('app_event_crud_edit', {'id': event.id}) }}">edit</a>
+                    <a href="{{ path('app_event_crud_show', {'id': event.id}) }}" class="btn btn-primary-custom btn-action">Voir</a>
+                    <a href="{{ path('app_event_crud_edit', {'id': event.id}) }}" class="btn btn-secondary-custom btn-action">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8" class="text-center">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_event_crud_new') }}">Create new</a>
+    <a href="{{ path('app_event_crud_new') }}" class="btn btn-primary-custom">Créer un nouveau</a>
+</div>
 {% endblock %}

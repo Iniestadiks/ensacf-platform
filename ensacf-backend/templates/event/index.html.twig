@@ -1,20 +1,142 @@
+{# templates/event/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EventController!{% endblock %}
+{% block title %}Liste des événements{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="container">
+    <h1>Liste des événements</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {# Ajout d'un menu déroulant pour filtrer les événements par type #}
+    <div class="filter">
+        <label for="eventTypeFilter">Filtrer par type:</label>
+        <select id="eventTypeFilter" class="form-control">
+            <option value="all">Tous les types</option>
+            <option value="exposition">Exposition</option>
+            <option value="conference">Conférence</option>
+            <option value="seminar">Séminaire</option>
+            <!-- Ajoutez d'autres options selon les types d'événements disponibles -->
+        </select>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/gueye/ENSACF/ensacf-backend/src/Controller/EventController.php'|file_link(0) }}">src/Controller/EventController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/gueye/ENSACF/ensacf-backend/templates/event/index.html.twig'|file_link(0) }}">templates/event/index.html.twig</a></code></li>
-    </ul>
+    {# Formulaire existant pour filtrer les événements par date #}
+    <form method="get" action="{{ path('filter_events') }}" class="filter-form">
+        <div class="form-group">
+            <label for="start">Date de début :</label>
+            <input type="date" id="start" name="start" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="end">Date de fin :</label>
+            <input type="date" id="end" name="end" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrer</button>
+    </form>
+
+    {# Affichage des événements #}
+    <div class="events">
+        {% for event in events %}
+        <div class="event-card">
+            <div class="event-header">
+                <h2>{{ event.title }}</h2>
+                <p>{{ event.startDate|date('d M Y') }} ({{ event.type }})</p>
+            </div>
+            {% if event.photo %}
+                <img src="{{ asset('uploads/photos/' ~ event.photo) }}" alt="Photo de {{ event.title }}" class="event-photo">
+            {% endif %}
+            <div class="event-body">
+                <p>{{ event.description }}</p>
+                <p>Lieu: {{ event.location }}</p>
+                <p>Du {{ event.startDate|date('d M Y H:i') }} au {{ event.endDate|date('d M Y H:i') }}</p>
+            </div>
+            <div class="event-footer">
+                <a href="{{ path('public_event_show', {'id': event.id}) }}" class="btn btn-info">Voir plus</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
+{% endblock %}
+
+{# Bloc pour le script JavaScript de filtrage #}
+{% block javascripts %}
+<script>
+    document.getElementById('eventTypeFilter').addEventListener('change', function() {
+        var selectedType = this.value;
+        var events = document.querySelectorAll('.event-card');
+
+        events.forEach(function(event) {
+            var eventType = event.querySelector('.event-header p').textContent.match(/\(([^)]+)\)/)[1]; // Extrait le type depuis le titre entre parenthèses
+            if (selectedType === 'all' || eventType === selectedType) {
+                event.style.display = 'block'; // Affiche l'événement s'il correspond au filtre
+            } else {
+                event.style.display = 'none'; // Cache l'événement s'il ne correspond pas au filtre
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .container {
+        margin: 20px;
+    }
+    .filter {
+        margin-bottom: 20px;
+    }
+    .filter-form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+    .events {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+    .event-card {
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        width: 300px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+    .event-card:hover {
+        transform: translateY(-10px);
+    }
+    .event-header {
+        margin-bottom: 10px;
+    }
+    .event-header h2 {
+        margin: 0;
+        font-size: 1.5em;
+    }
+    .event-header p {
+        margin: 5px 0 0;
+        font-size: 0.9em;
+        color: #555;
+    }
+    .event-photo {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+    .event-body p {
+        margin: 0 0 10px;
+        font-size: 0.9em;
+        color: #333;
+    }
+    .event-footer {
+        display: flex;
+        justify-content: flex-end;
+    }
+</style>
 {% endblock %}

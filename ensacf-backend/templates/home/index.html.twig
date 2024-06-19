@@ -1,0 +1,22 @@
+{# templates/home/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - ENSACF{% endblock %}
+
+{% block body %}
+<div style="text-align: center;">
+    <h1>Bienvenue à l'ENSACF!</h1>
+    <p>Ce site est dédié à la gestion et à l'affichage des événements organisés par notre école.</p>
+
+    <div>
+        <a href="{{ path('public_events') }}" target="_blank" class="btn btn-primary">Voir les événements</a>
+        <a href="{{ path('app_about') }}" target="_blank" class="btn btn-info">À propos</a>
+        <a href="{{ path('app_contact') }}" target="_blank" class="btn btn-secondary">Contactez-nous</a>
+        {% if app.user %}
+            <a href="{{ path('app_event_crud_index') }}" target="_blank" class="btn btn-success">Gestion des événements</a>
+        {% else %}
+            <a href="{{ path('login') }}" target="_blank" class="btn btn-warning">Connexion</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

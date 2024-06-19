@@ -5,14 +5,10 @@ namespace App\Repository;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends ServiceEntityRepository<Event>
- *
- * @method Event|null find($id, $lockMode = null, $lockVersion = null)
- * @method Event|null findOneBy(array $criteria, array $orderBy = null)
- * @method Event[]    findAll()
- * @method Event[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class EventRepository extends ServiceEntityRepository
 {
@@ -21,28 +17,33 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-//    /**
-//     * @return Event[] Returns an array of Event objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByDate()
+    {
+        return $this->findBy([], ['startDate' => 'ASC']);
+    }
 
-//    public function findOneBySomeField($value): ?Event
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findByType()
+    {
+        return $this->findBy([], ['type' => 'ASC']);
+    }
+
+    public function findByTitle()
+    {
+        return $this->findBy([], ['title' => 'ASC']);
+    }
+
+    public function findByLocation()
+    {
+        return $this->findBy([], ['location' => 'ASC']);
+    }
+    public function findEventsBetweenDates(\DateTime $start, \DateTime $end)
+{
+    return $this->createQueryBuilder('e')
+        ->where('e.startDate >= :start AND e.endDate <= :end')
+        ->setParameter('start', $start)
+        ->setParameter('end', $end)
+        ->orderBy('e.startDate', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
 }

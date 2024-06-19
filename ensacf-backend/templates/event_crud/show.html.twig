@@ -1,46 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Event{% endblock %}
+{% block title %}Détails de l'événement{% endblock %}
 
 {% block body %}
-    <h1>Event</h1>
+<div class="container">
+    <h1 class="my-4">Détails de l'événement</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ event.title }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ event.type }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ event.description }}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ event.location }}</td>
-            </tr>
-            <tr>
-                <th>StartDate</th>
-                <td>{{ event.startDate ? event.startDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>EndDate</th>
-                <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="event-details">
+        <h2>{{ event.title }}</h2>
+        {% if event.photo %}
+            <img src="{{ asset('uploads/photos/' ~ event.photo) }}" alt="Photo de {{ event.title }}" class="img-fluid" style="max-width: 500px; max-height: 300px;">
+        {% endif %}
+        <p><strong>Type:</strong> {{ event.type }}</p>
+        <p><strong>Description:</strong> {{ event.description }}</p>
+        <p><strong>Lieu:</strong> {{ event.location }}</p>
+        <p><strong>Date de début:</strong> {{ event.startDate|date('d/m/Y H:i') }}</p>
+        <p><strong>Date de fin:</strong> {{ event.endDate|date('d/m/Y H:i') }}</p>
+    </div>
 
-    <a href="{{ path('app_event_crud_index') }}">back to list</a>
-
-    <a href="{{ path('app_event_crud_edit', {'id': event.id}) }}">edit</a>
-
+    <a href="{{ path('app_event_crud_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    <a href="{{ path('app_event_crud_edit', {'id': event.id}) }}" class="btn btn-primary">Modifier</a>
     {{ include('event_crud/_delete_form.html.twig') }}
+</div>
 {% endblock %}

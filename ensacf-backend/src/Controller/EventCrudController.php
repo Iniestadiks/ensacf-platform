@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/event/crud')]
 class EventCrudController extends AbstractController
@@ -30,10 +31,25 @@ class EventCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Handle file upload
+            $file = $form->get('photo')->getData();
+            if ($file) {
+                $filename = $this->generateUniqueFileName().'.'.$file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('photos_directory'),
+                        $filename
+                    );
+                    $event->setPhoto($filename);
+                } catch (FileException $e) {
+                    // Handle exception
+                }
+            }
+
             $entityManager->persist($event);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_event_crud_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_event_crud_index');
         }
 
         return $this->renderForm('event_crud/new.html.twig', [
@@ -57,9 +73,23 @@ class EventCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            // Handle file upload
+            $file = $form->get('photo')->getData();
+            if ($file) {
+                $filename = $this->generateUniqueFileName().'.'.$file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('photos_directory'),
+                        $filename
+                    );
+                    $event->setPhoto($filename);
+                } catch (FileException $e) {
+                    // Handle exception
+                }
+            }
 
-            return $this->redirectToRoute('app_event_crud_index', [], Response::HTTP_SEE_OTHER);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_event_crud_index');
         }
 
         return $this->renderForm('event_crud/edit.html.twig', [
@@ -76,6 +106,12 @@ class EventCrudController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_event_crud_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_event_crud_index');
+    }
+
+    // Helper function to generate a unique file name
+    private function generateUniqueFileName()
+    {
+        return md5(uniqid());
     }
 }

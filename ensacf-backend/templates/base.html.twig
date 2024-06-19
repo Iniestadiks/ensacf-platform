@@ -3,24 +3,111 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        <link rel="icon" href="{{ asset('images/logo.png') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Marianne:wght@400;700&display=swap" rel="stylesheet"> <!-- Police Marianne -->
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            <style>
+                body {
+                    font-family: 'Marianne', Arial, sans-serif; /* Utilisation de la police Marianne */
+                    background-color: #f0f0f5;
+                    margin: 0;
+                    padding: 0;
+                }
+                header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 10px;
+                    background-color: #0053b3;
+                    color: white;
+                }
+                header img {
+                    max-height: 50px;
+                }
+                nav ul {
+                    list-style-type: none;
+                    padding: 0;
+                    margin: 0;
+                }
+                nav ul li {
+                    display: inline;
+                    margin: 0 10px;
+                }
+                nav ul li a {
+                    text-decoration: none;
+                    color: white;
+                    font-weight: bold;
+                }
+                .banner img {
+                    width: 100%;
+                    height: auto;
+                }
+                .container {
+                    margin: 20px;
+                }
+                .btn {
+                    display: inline-block;
+                    padding: 10px 20px;
+                    margin: 10px;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    color: white;
+                    background-color: #0053b3;
+                    transition: background-color 0.3s;
+                }
+                .btn:hover {
+                    background-color: #003d80;
+                }
+                .btn-primary {
+                    background-color: #0053b3;
+                }
+                .btn-info {
+                    background-color: #1e7cb4;
+                }
+                .btn-secondary {
+                    background-color: #6c757d;
+                }
+                .btn-success {
+                    background-color: #28a745;
+                }
+                .btn-warning {
+                    background-color: #ffc107;
+                }
+            </style>
         {% endblock %}
+    </head>
+    <body>
+        <header>
+            <a href="{{ path('home') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo ENSACF">
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li><a href="{{ path('public_events') }}">Événements</a></li>
+                    <li><a href="{{ path('app_about') }}">À propos</a></li>
+                    <li><a href="{{ path('app_contact') }}">Contact</a></li>
+                    {% if app.user %}
+                        <li><a href="{{ path('app_event_crud_index') }}">Gestion des événements</a></li>
+                        <li><a href="{{ path('logout') }}">Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="{{ path('login') }}">Connexion</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+
+        <div class="banner">
+            <img src="{{ asset('images/banner.jpg') }}" alt="Bannière ENSACF">
+        </div>
+
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
-    </head>
-    <body>
-        <body>
-    {% block body %}{% endblock %}
-    {% if app.user %}
-        <div>
-            <a href="{{ path('logout') }}">Déconnexion</a>
-        </div>
-    {% endif %}
-</body>
     </body>
 </html>

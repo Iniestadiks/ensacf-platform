@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EventRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
@@ -22,6 +23,13 @@ class Event
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
+
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\Image(
+        mimeTypes: ["image/jpeg", "image/png"],
+        maxSize: "5M"
+    )]
+    private ?string $photo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
@@ -106,6 +114,16 @@ class Event
     {
         $this->endDate = $endDate;
 
+        return $this;
+    }
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
         return $this;
     }
 }
