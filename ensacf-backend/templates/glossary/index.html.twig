@@ -3,19 +3,83 @@
 
 {% block title %}Glossaire des types d'événements{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .glossary-container {
+            padding: 50px 20px;
+            max-width: 800px;
+            margin: auto;
+            text-align: left;
+        }
+        .glossary-container h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .glossary-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .glossary-item {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .glossary-item strong {
+            font-size: 1.5em;
+            color: #0053b3;
+        }
+        .glossary-item p {
+            margin: 10px 0 0;
+            line-height: 1.6;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-<div class="container">
+<div class="glossary-container">
     <h1>Glossaire des types d'événements</h1>
-    <ul>
-        <li><strong>Exposition</strong> : Description pour l'exposition.</li>
-        <li><strong>Conférence</strong> : Description pour la conférence.</li>
-        <li><strong>Table Ronde</strong> : Description pour la table ronde.</li>
-        <li><strong>Séminaire</strong> : Description pour le séminaire.</li>
-        <li><strong>Résidence</strong> : Description pour la résidence.</li>
-        <li><strong>Vie Étudiante</strong> : Description pour la vie étudiante (Bistrot d'archi, Association).</li>
-        <li><strong>Événements Externes</strong> : Description pour les événements externes.</li>
-        <li><strong>Autres</strong> : Description pour les autres types d'événements.</li>
-        <li><strong>Vie de l'École</strong> : Description pour la vie de l'école (Instance, Réunion Interne).</li>
+    <ul class="glossary-list">
+        <li class="glossary-item">
+            <strong>Exposition</strong>
+            <p>Les expositions sont des présentations publiques d'œuvres d'art, de projets architecturaux ou d'autres réalisations créatives, souvent accompagnées d'une documentation explicative.</p>
+        </li>
+        <li class="glossary-item">
+            <strong>Conférence</strong>
+            <p>Les conférences sont des événements où des experts partagent leurs connaissances et leurs expériences sur un sujet spécifique lié à l'architecture, souvent suivis de sessions de questions-réponses.</p>
+        </li>
+        <li class="glossary-item">
+            <strong>Table Ronde</strong>
+            <p>Les tables rondes sont des discussions interactives impliquant plusieurs intervenants qui échangent des idées et des perspectives sur des thèmes d'actualité ou des problématiques spécifiques en architecture.</p>
+        </li>
+        <li class="glossary-item">
+            <strong>Séminaire</strong>
+            <p>Les séminaires sont des sessions éducatives ou de formation intensive où les participants approfondissent leurs connaissances sur des sujets particuliers à travers des présentations et des discussions.</p>
+        </li>
+        <li class="glossary-item">
+            <strong>Résidence</strong>
+            <p>Les résidences permettent aux professionnels et aux étudiants de séjourner à l'école pour travailler sur des projets spécifiques, bénéficier de mentorat et collaborer avec la communauté académique.</p>
+        </li>
+        <li class="glossary-item">
+            <strong>Vie Étudiante</strong>
+            <p>Les événements de vie étudiante incluent des activités sociales, culturelles et associatives comme les bistrots d'archi et les événements organisés par les associations étudiantes.</p>
+        </li>
+        <li class="glossary-item">
+            <strong>Événements Externes</strong>
+            <p>Les événements externes sont des activités organisées en dehors de l'école, souvent en partenariat avec d'autres institutions ou entreprises, pour promouvoir l'architecture et l'éducation.</p>
+        </li>
+        <li class="glossary-item">
+            <strong>Autres</strong>
+            <p>Cette catégorie comprend tous les autres types d'événements qui ne rentrent pas dans les catégories précédentes mais qui sont pertinents pour la communauté académique et professionnelle.</p>
+        </li>
+        <li class="glossary-item">
+            <strong>Vie de l'École</strong>
+            <p>Les événements de vie de l'école incluent les réunions internes, les instances administratives et les autres activités qui contribuent à la gestion et au fonctionnement de l'école.</p>
+        </li>
     </ul>
 </div>
 {% endblock %}

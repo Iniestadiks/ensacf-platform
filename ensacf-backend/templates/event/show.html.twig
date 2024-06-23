@@ -3,8 +3,41 @@
 
 {% block title %}{{ event.title }}{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .event-details-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .event-details-container img {
+        margin: 20px 0;
+        border-radius: 10px;
+    }
+    .event-details-container h1 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .event-details-container p {
+        font-size: 1.2em;
+        margin: 10px 0;
+    }
+    .event-details-container .btn {
+        margin-top: 20px;
+        font-size: 1.1em;
+        padding: 10px 20px;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
-<div class="container">
+<div class="container event-details-container">
     <h1>{{ event.title }}</h1>
     {% if event.photo %}
         <img src="{{ asset('uploads/photos/' ~ event.photo) }}" alt="Photo de {{ event.title }}" style="max-width: 100%; height: auto;">

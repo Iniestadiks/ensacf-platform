@@ -1,14 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reject Event{% endblock %}
+{% block title %}Rejeter un événement{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+    h1 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        color: #dc3545;
+    }
+    .btn-danger {
+        font-size: 1.2em;
+        padding: 10px 20px;
+    }
+    .btn-secondary {
+        font-size: 1.2em;
+        padding: 10px 20px;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
 
 {% block body %}
-    <h1>Reject Event</h1>
+<div class="container">
+    <h1>Rejeter un événement</h1>
 
     <form action="{{ path('app_event_crud_reject', {'id': event.id}) }}" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ event.id) }}">
-        <button class="btn btn-danger">Reject</button>
+        <button class="btn btn-danger">Rejeter</button>
     </form>
 
-    <a href="{{ path('app_event_crud_pending') }}">Back to pending events</a>
+    <a href="{{ path('app_event_crud_pending') }}" class="btn btn-secondary">Retour aux événements en attente</a>
+</div>
 {% endblock %}

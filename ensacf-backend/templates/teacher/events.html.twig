@@ -2,6 +2,50 @@
 
 {% block title %}Liste des événements approuvés{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .events {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .event {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .event:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .event h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+    .event p {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+    }
+    .event .date {
+        font-weight: bold;
+        color: #007bff;
+    }
+    .event .location {
+        font-style: italic;
+        color: #555;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
 <div class="container">
     <h1 class="my-4">Liste des événements approuvés</h1>
@@ -9,9 +53,9 @@
     <div class="events">
         {% for event in events %}
         <div class="event">
-            <h2>{{ event.title }} - {{ event.startDate|date('d/m/Y') }} ({{ event.type }})</h2>
+            <h2>{{ event.title }} - <span class="date">{{ event.startDate|date('d/m/Y') }}</span> ({{ event.type }})</h2>
             <p>{{ event.description }}</p>
-            <p>Lieu: {{ event.location }}</p>
+            <p class="location">Lieu: {{ event.location }}</p>
             <p>Du {{ event.startDate|date('d/m/Y H:i') }} au {{ event.endDate|date('d/m/Y H:i') }}</p>
         </div>
         {% endfor %}

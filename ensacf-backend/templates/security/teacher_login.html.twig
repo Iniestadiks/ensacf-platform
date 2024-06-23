@@ -2,20 +2,67 @@
 
 {% block title %}Teacher Login{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .login-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            background-color: #0053b3;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #003d80;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-<form action="{{ path('teacher_login') }}" method="post">
-    <label for="username">Email:</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required>
+<div class="login-container">
+    <h1>Se connecter en tant qu'enseignant</h1>
+    <form action="{{ path('teacher_login') }}" method="post">
+        <label for="username">Email:</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}" required>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="_password" required>
+        <label for="password">Mot de passe:</label>
+        <input type="password" id="password" name="_password" required>
 
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-    <button type="submit">Login</button>
+        <button type="submit" class="btn btn-primary">Connexion</button>
 
-    {% if error %}
-        <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-</form>
+        {% if error %}
+            <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+    </form>
+</div>
 {% endblock %}

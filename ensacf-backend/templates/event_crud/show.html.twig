@@ -2,6 +2,58 @@
 
 {% block title %}Détails de l'événement{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .event-details {
+            margin-top: 20px;
+        }
+        .event-details img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .event-details p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+        .event-details strong {
+            font-weight: bold;
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            background-color: #0053b3;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #003d80;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
 <div class="container">
     <h1 class="my-4">Détails de l'événement</h1>
@@ -9,7 +61,7 @@
     <div class="event-details">
         <h2>{{ event.title }}</h2>
         {% if event.photo %}
-            <img src="{{ asset('uploads/photos/' ~ event.photo) }}" alt="Photo de {{ event.title }}" class="img-fluid" style="max-width: 500px; max-height: 300px;">
+            <img src="{{ asset('uploads/photos/' ~ event.photo) }}" alt="Photo de {{ event.title }}" class="img-fluid">
         {% endif %}
         <p><strong>Type:</strong> {{ event.type }}</p>
         <p><strong>Description:</strong> {{ event.description }}</p>
@@ -18,8 +70,10 @@
         <p><strong>Date de fin:</strong> {{ event.endDate|date('d/m/Y H:i') }}</p>
     </div>
 
-    <a href="{{ path('app_event_crud_index') }}" class="btn btn-secondary">Retour à la liste</a>
-    <a href="{{ path('app_event_crud_edit', {'id': event.id}) }}" class="btn btn-primary">Modifier</a>
-    {{ include('event_crud/_delete_form.html.twig') }}
+    <div class="text-center">
+        <a href="{{ path('app_event_crud_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        <a href="{{ path('app_event_crud_edit', {'id': event.id}) }}" class="btn btn-primary">Modifier</a>
+        {{ include('event_crud/_delete_form.html.twig') }}
+    </div>
 </div>
 {% endblock %}

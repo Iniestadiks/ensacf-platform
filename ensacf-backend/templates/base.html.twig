@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="{{ asset('images/logo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Marianne:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
         <style>
@@ -29,6 +31,17 @@
             }
             header img {
                 max-height: 50px;
+            }
+            .menu-toggle {
+                display: none;
+                flex-direction: column;
+                cursor: pointer;
+            }
+            .menu-toggle span {
+                width: 25px;
+                height: 3px;
+                background: black;
+                margin: 4px 0;
             }
             nav ul {
                 list-style-type: none;
@@ -79,7 +92,9 @@
             }
             .container {
                 flex: 1;
-                margin: 20px;
+                margin: 20px auto;
+                max-width: 1200px;
+                width: 100%;
             }
             .btn {
                 display: inline-block;
@@ -119,6 +134,33 @@
                 bottom: 0;
                 width: 100%;
             }
+
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                }
+                .menu-toggle {
+                    display: flex;
+                }
+                nav ul {
+                    flex-direction: column;
+                    display: none;
+                    width: 100%;
+                }
+                nav ul.showing {
+                    display: flex;
+                }
+                nav ul li {
+                    width: 100%;
+                    text-align: center;
+                }
+                nav ul li ul {
+                    position: static;
+                }
+                nav ul li ul li {
+                    width: 100%;
+                }
+            }
         </style>
     {% endblock %}
 </head>
@@ -127,8 +169,13 @@
     <a href="{{ path('home') }}">
         <img src="{{ asset('images/logo.png') }}" alt="Logo ENSACF">
     </a>
+    <div class="menu-toggle" id="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
     <nav>
-        <ul>
+        <ul id="menu">
             <li><a href="{{ path('home') }}">Accueil</a></li>
             <li>
                 <a href="#">Événements</a>
@@ -146,6 +193,8 @@
                     <ul>
                         <li><a href="{{ path('app_event_crud_index') }}">Gestion des événements</a></li>
                         <li><a href="{{ path('app_event_crud_pending') }}">Demandes en attente</a></li>
+                        <li><a href="{{ path('admin_pending_teachers') }}">Approuver enseignants</a></li>
+                        <li><a href="{{ path('admin_create_admin') }}">Créer un admin</a></li>
                         <li><a href="{{ path('logout') }}">Déconnexion</a></li>
                     </ul>
                 </li>
@@ -163,6 +212,7 @@
             {% else %}
                 <li><a href="{{ path('login') }}">Connexion Admin</a></li>
                 <li><a href="{{ path('teacher_login') }}">Connexion Enseignant</a></li>
+                <li><a href="{{ path('teacher_register') }}">Inscription Enseignant</a></li>
             {% endif %}
         </ul>
     </nav>
@@ -183,7 +233,16 @@
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script>
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            var menu = document.getElementById('menu');
+            if (menu.classList.contains('showing')) {
+                menu.classList.remove('showing');
+            } else {
+                menu.classList.add('showing');
+            }
+        });
+    </script>
 {% endblock %}
 </body>
 </html>
- on va travailler sur le home. au lieu de site on doit mettre l'application permets de. tu conais toute sles fonctionnalité de l'application, çaa doit permettre aux enseignants de  au premier de leur dire vous avez une proposition d''événement ? 

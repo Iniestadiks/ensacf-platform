@@ -2,14 +2,82 @@
 
 {% block title %}Tableau de bord des enseignants{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .dashboard {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .dashboard h1 {
+        margin-top: 20px;
+        font-size: 2.5em;
+    }
+    .dashboard p {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+    .dashboard .btn {
+        font-size: 1.1em;
+        padding: 10px 20px;
+        margin: 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .dashboard .btn-primary:hover {
+        background-color: #003d80;
+    }
+    .dashboard .btn-success:hover {
+        background-color: #218838;
+    }
+    .dashboard .btn-info:hover {
+        background-color: #117a8b;
+    }
+    .dashboard .btn-warning:hover {
+        background-color: #e0a800;
+    }
+    .info-section {
+        text-align: left;
+        margin: 20px 0;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .info-section h2 {
+        font-size: 1.8em;
+        margin-bottom: 10px;
+    }
+    .info-section p {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+    }
+    .info-section ul {
+        font-size: 1.1em;
+        margin-left: 20px;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
-<div class="container">
-    <h1 class="my-4">Tableau de bord des enseignants</h1>
-    <p>Bienvenue sur votre tableau de bord. Utilisez le menu pour naviguer.</p>
+<div class="dashboard">
+    <h1>Tableau de bord des enseignants</h1>
+    <p>Bienvenue sur votre tableau de bord. Utilisez le menu ci-dessous pour accéder aux différentes fonctionnalités.</p>
 
     <a href="{{ path('teacher_events') }}" class="btn btn-primary">Voir les événements</a>
     <a href="{{ path('teacher_create_event') }}" class="btn btn-success">Créer un événement</a>
     <a href="{{ path('teacher_check_availability') }}" class="btn btn-info">Vérifier la disponibilité</a>
     <a href="{{ path('teacher_logout') }}" class="btn btn-warning">Déconnexion</a>
+
+    <div class="info-section">
+        <h2>Informations importantes</h2>
+        <p>En tant qu'enseignant, vous avez la possibilité de proposer des événements. Voici quelques informations utiles :</p>
+        <ul>
+            <li><strong>Créer un événement :</strong> Vous pouvez proposer un nouvel événement en cliquant sur "Créer un événement". Notez que tous les événements doivent être approuvés par un administrateur avant d'être publiés.</li>
+            <li><strong>Voir les événements :</strong> Vous pouvez consulter la liste des événements que vous avez proposés et leur statut en cliquant sur "Voir les événements".</li>
+            <li><strong>Vérifier la disponibilité :</strong> Avant de proposer un événement dans la salle d'exposition, vous devez vérifier sa disponibilité. Notez que la salle est considérée comme indisponible 15 jours avant et 15 jours après un autre événement déjà approuvé.</li>
+        </ul>
+    </div>
 </div>
 {% endblock %}
