@@ -1,43 +1,136 @@
-{# templates/event/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Liste des événements{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .filter {
+        margin-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .filter select,
+    .filter button {
+        width: 100%;
+        max-width: 200px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1em;
+    }
+    .filter-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .filter-form .form-group {
+        flex: 1;
+        min-width: 150px;
+    }
+    .events {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        justify-items: center;
+    }
+    .event-card {
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .event-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .event-header {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .event-header h2 {
+        margin: 0;
+        font-size: 1.8em;
+        color: #333;
+    }
+    .event-header p {
+        margin: 5px 0 0;
+        font-size: 1em;
+        color: #555;
+    }
+    .event-photo {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+    .event-body p {
+        margin: 0 0 10px;
+        font-size: 1em;
+        color: #333;
+    }
+    .event-footer {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .event-footer a {
+        text-decoration: none;
+        color: white;
+        background-color: #1e7cb4;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .event-footer a:hover {
+        background-color: #145a8d;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
 <div class="container">
-    <h1>Liste des événements</h1>
+    <h1 class="text-center my-4">Liste des événements</h1>
 
-    {# Ajout d'un menu déroulant pour filtrer les événements par type #}
     <div class="filter">
-        <label for="eventTypeFilter">Filtrer par type:</label>
-        <select id="eventTypeFilter" class="form-control">
-            <option value="all">Tous les types</option>
-            <option value="exposition">Exposition</option>
-            <option value="conference">Conférence</option>
-            <option value="table_ronde">Table Ronde</option>
-            <option value="seminaire">Séminaire</option>
-            <option value="residence">Résidence</option>
-            <option value="vie_etudiante">Vie Étudiante (Bistrot d'archi... Association)</option>
-            <option value="evenements_externes">Événements Externes</option>
-            <option value="autres">Autres</option>
-            <option value="vie_ecole">Vie de l'École (Instance, Réunion Interne)</option>
-        </select>
+        <div class="filter-type">
+            <label for="eventTypeFilter" class="form-label">Filtrer par type:</label>
+            <select id="eventTypeFilter" class="form-control">
+                <option value="all">Tous les types</option>
+                <option value="exposition">Exposition</option>
+                <option value="conference">Conférence</option>
+                <option value="table_ronde">Table Ronde</option>
+                <option value="seminaire">Séminaire</option>
+                <option value="residence">Résidence</option>
+                <option value="vie_etudiante">Vie Étudiante</option>
+                <option value="evenements_externes">Événements Externes</option>
+                <option value="autres">Autres</option>
+                <option value="vie_ecole">Vie de l'École</option>
+            </select>
+        </div>
+
+        <form method="get" action="{{ path('filter_events') }}" class="filter-form">
+            <div class="form-group">
+                <label for="start" class="form-label">Date de début :</label>
+                <input type="date" id="start" name="start" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="end" class="form-label">Date de fin :</label>
+                <input type="date" id="end" name="end" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Filtrer</button>
+        </form>
     </div>
 
-    {# Formulaire existant pour filtrer les événements par date #}
-    <form method="get" action="{{ path('filter_events') }}" class="filter-form">
-        <div class="form-group">
-            <label for="start">Date de début :</label>
-            <input type="date" id="start" name="start" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="end">Date de fin :</label>
-            <input type="date" id="end" name="end" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary">Filtrer</button>
-    </form>
-
-    {# Affichage des événements #}
     <div class="events">
         {% for event in events %}
         <div class="event-card">
@@ -62,8 +155,8 @@
 </div>
 {% endblock %}
 
-{# Bloc pour le script JavaScript de filtrage #}
 {% block javascripts %}
+{{ parent() }}
 <script>
     document.getElementById('eventTypeFilter').addEventListener('change', function() {
         var selectedType = this.value;
@@ -79,69 +172,4 @@
         });
     });
 </script>
-{% endblock %}
-
-{% block stylesheets %}
-<style>
-    .container {
-        margin: 20px;
-    }
-    .filter {
-        margin-bottom: 20px;
-    }
-    .filter-form {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-    .form-group {
-        display: flex;
-        flex-direction: column;
-    }
-    .events {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
-    }
-    .event-card {
-        background-color: white;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding: 20px;
-        width: 300px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s;
-    }
-    .event-card:hover {
-        transform: translateY(-10px);
-    }
-    .event-header {
-        margin-bottom: 10px;
-    }
-    .event-header h2 {
-        margin: 0;
-        font-size: 1.5em;
-    }
-    .event-header p {
-        margin: 5px 0 0;
-        font-size: 0.9em;
-        color: #555;
-    }
-    .event-photo {
-        width: 100%;
-        height: auto;
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
-    .event-body p {
-        margin: 0 0 10px;
-        font-size: 0.9em;
-        color: #333;
-    }
-    .event-footer {
-        display: flex;
-        justify-content: flex-end;
-    }
-</style>
 {% endblock %}

@@ -28,6 +28,9 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     private ?string $password = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $approved = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,5 +89,16 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUsername(): string
     {
         return $this->getUserIdentifier();
+    }
+
+    public function isApproved(): bool
+    {
+        return $this->approved;
+    }
+
+    public function setApproved(bool $approved): self
+    {
+        $this->approved = $approved;
+        return $this;
     }
 }

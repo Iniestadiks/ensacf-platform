@@ -2,7 +2,72 @@
 
 {% block title %}Disponibilité des salles d'exposition{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+    }
+    form {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        font-weight: bold;
+    }
+    .form-control {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 100%;
+    }
+    .btn {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 1.1em;
+    }
+    .alert {
+        text-align: center;
+        font-size: 1.1em;
+    }
+    table {
+        margin-top: 20px;
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
+    th {
+        background-color: #0053b3;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    .text-center {
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
+<div class="container">
     <h1>Disponibilité des salles d'exposition</h1>
 
     <form method="get" action="{{ path('teacher_check_availability') }}">
@@ -28,7 +93,7 @@
             </div>
         {% endif %}
 
-        <h2>Événements existants entre le {{ startDate }} et le {{ endDate }}</h2>
+        <h2 class="text-center">Événements existants entre le {{ startDate }} et le {{ endDate }}</h2>
         <table class="table">
             <thead>
                 <tr>
@@ -60,4 +125,5 @@
             </tbody>
         </table>
     {% endif %}
+</div>
 {% endblock %}

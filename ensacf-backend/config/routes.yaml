@@ -45,3 +45,7 @@ filter_events:
 public_event_show:
     path: /events/{id}
     controller: App\Controller\EventController::show
+
+teacher_register:
+    path: /teacher/register
+    controller: App\Controller\SecurityController::registerTeacher

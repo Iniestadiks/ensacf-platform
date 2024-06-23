@@ -3,9 +3,99 @@
 
 {% block title %}À propos - ENSACF{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .about-container {
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .about-container h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .about-container p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .about-section {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .about-section h2 {
+            margin-top: 0;
+        }
+        .about-section p {
+            margin-bottom: 0;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-<div>
+<div class="about-container">
     <h1>À propos de l'ENSACF</h1>
-    <p>Informations sur l'école...</p>
+    <div class="about-content">
+        <div class="about-section">
+            <h2>Présentation du Projet</h2>
+            <p>
+                Ce projet a été initié par l'École Nationale Supérieure d'Architecture de Clermont-Ferrand (ENSACF) 
+                dans le cadre d'un stage effectué par GUEYE Madicke, sous la direction de Madame Zakia Douakha, 
+                Directrice de la Communication et de la Culture Architecturale.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>Objectifs de l'Application</h2>
+            <p>
+                L'application ENSACF a pour objectif de faciliter la gestion et la publication des événements 
+                organisés par l'école. Elle permet aux enseignants de proposer des événements et aux administrateurs 
+                de les approuver et de les gérer efficacement.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>Fonctionnalités Principales</h2>
+            <p>
+                <ul>
+                    <li>Proposition et gestion des événements par les enseignants.</li>
+                    <li>Validation des événements par les administrateurs.</li>
+                    <li>Affichage des événements approuvés dans un calendrier interactif.</li>
+                    <li>Filtrage et recherche des événements par type, date et lieu.</li>
+                    <li>Accès aux informations détaillées sur chaque événement.</li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>Utilisation de l'Application</h2>
+            <p>
+                Les enseignants peuvent s'inscrire sur la plateforme pour proposer des événements. 
+                Une fois leur compte validé par un administrateur, ils peuvent accéder à leur tableau de bord 
+                pour gérer leurs propositions. Les administrateurs disposent de fonctionnalités avancées pour 
+                gérer l'ensemble des événements de l'école.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>Contact</h2>
+            <p>
+                Pour toute question ou assistance, veuillez nous contacter via la page 
+                <a href="{{ path('app_contact') }}">Contactez-nous</a>.
+            </p>
+        </div>
+    </div>
 </div>
 {% endblock %}

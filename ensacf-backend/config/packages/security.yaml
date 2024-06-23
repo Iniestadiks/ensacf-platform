@@ -11,9 +11,7 @@ security:
                 class: App\Entity\Admin
                 property: email
         teacher_provider:
-            entity:
-                class: App\Entity\Teacher
-                property: email
+            id: App\Security\TeacherUserProvider
 
     firewalls:
         dev:
@@ -59,6 +57,7 @@ security:
         - { path: ^/event/crud/pending, roles: ROLE_ADMIN }
         - { path: ^/event/crud/approve, roles: ROLE_ADMIN }
         - { path: ^/event/crud/reject, roles: ROLE_ADMIN }
+        - { path: ^/admin/create, roles: ROLE_ADMIN }
 
 when@test:
     security:

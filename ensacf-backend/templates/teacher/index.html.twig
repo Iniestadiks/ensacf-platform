@@ -5,6 +5,43 @@
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+    }
+    .events {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .event {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .event h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+        color: #0053b3;
+    }
+    .event p {
+        margin: 5px 0;
+        font-size: 1.1em;
+    }
+    .event .btn {
+        margin-top: 10px;
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
@@ -16,8 +53,13 @@
         <div class="event">
             <h2>{{ event.title }} - {{ event.startDate|date('d/m/Y') }} ({{ event.type }})</h2>
             <p>{{ event.description }}</p>
-            <p>Lieu: {{ event.location }}</p>
-            <p>Du {{ event.startDate|date('d/m/Y H:i') }} au {{ event.endDate|date('d/m/Y H:i') }}</p>
+            <p><strong>Lieu:</strong> {{ event.location }}</p>
+            <p><strong>Du:</strong> {{ event.startDate|date('d/m/Y H:i') }} <strong>au</strong> {{ event.endDate|date('d/m/Y H:i') }}</p>
+            <a href="{{ path('public_event_show', {'id': event.id}) }}" class="btn btn-info">Voir les détails</a>
+        </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            Aucun événement approuvé n'a été trouvé.
         </div>
         {% endfor %}
     </div>

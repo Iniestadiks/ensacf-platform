@@ -1,0 +1,64 @@
+{# templates/admin/create_admin.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouvel administrateur{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            background-color: #0053b3;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #003d80;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Créer un nouvel administrateur</h1>
+
+    {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, { 'attr': { 'class': 'form-control' } }) }}
+            {{ form_errors(form.email) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.password) }}
+            {{ form_widget(form.password, { 'attr': { 'class': 'form-control' } }) }}
+            {{ form_errors(form.password) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Créer</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

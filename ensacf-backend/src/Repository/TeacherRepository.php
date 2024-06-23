@@ -16,5 +16,14 @@ class TeacherRepository extends ServiceEntityRepository
         parent::__construct($registry, Teacher::class);
     }
 
+    public function findOneByEmail(string $email): ?Teacher
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // Ajoutez des méthodes personnalisées ici si nécessaire
 }

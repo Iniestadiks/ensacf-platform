@@ -2,39 +2,88 @@
 
 {% block title %}Événements en attente{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+        color: #0053b3;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    thead {
+        background-color: #0053b3;
+        color: white;
+    }
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+    .btn {
+        font-size: 1.1em;
+        padding: 10px 20px;
+        margin: 10px 0;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
-<h1>Événements en attente</h1>
+<div class="container">
+    <h1>Événements en attente</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Titre</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Lieu</th>
-            <th>Date de début</th>
-            <th>Date de fin</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for event in events %}
-        <tr>
-            <td>{{ event.id }}</td>
-            <td>{{ event.title }}</td>
-            <td>{{ event.type }}</td>
-            <td>{{ event.description }}</td>
-            <td>{{ event.location }}</td>
-            <td>{{ event.startDate ? event.startDate|date('d/m/Y H:i') : '' }}</td>
-            <td>{{ event.endDate ? event.endDate|date('d/m/Y H:i') : '' }}</td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="7" class="text-center">Aucun événement en attente</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Lieu</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.title }}</td>
+                <td>{{ event.type }}</td>
+                <td>{{ event.description }}</td>
+                <td>{{ event.location }}</td>
+                <td>{{ event.startDate ? event.startDate|date('d/m/Y H:i') : '' }}</td>
+                <td>{{ event.endDate ? event.endDate|date('d/m/Y H:i') : '' }}</td>
+                <td>
+                    <a href="{{ path('admin_approve_event', {'id': event.id}) }}" class="btn btn-success">Approuver</a>
+                    <a href="{{ path('admin_reject_event', {'id': event.id}) }}" class="btn btn-danger">Rejeter</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8" class="text-center">Aucun événement en attente</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-<a href="{{ path('teacher_dashboard') }}" class="btn btn-secondary">Retour au tableau de bord</a>
+    <a href="{{ path('teacher_dashboard') }}" class="btn btn-secondary">Retour au tableau de bord</a>
+</div>
 {% endblock %}

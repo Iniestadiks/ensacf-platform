@@ -3,9 +3,71 @@
 
 {% block title %}Contact - ENSACF{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .contact-container {
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .contact-container h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .contact-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .contact-card {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .contact-card h2 {
+            font-size: 1.5em;
+            margin-top: 0;
+        }
+        .contact-card p {
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+        .contact-card a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-<div>
+<div class="contact-container">
     <h1>Contactez-nous</h1>
-    <p>Formulaire de contact...</p>
+    <div class="contact-grid">
+        <div class="contact-card">
+            <h2>Douakha Zakia</h2>
+            <p><strong>Directrice communication/culture architecturale</strong></p>
+            <p>Téléphone: 04 73 34 71 55</p>
+            <p>Email: <a href="mailto:zakia.douakha@clermont-fd.archi.fr">zakia.douakha@clermont-fd.archi.fr</a></p>
+        </div>
+        <div class="contact-card">
+            <h2>Loiseau Sophie</h2>
+            <p><strong>Communication/graphiste</strong></p>
+            <p>Téléphone: 04 73 34 70 13</p>
+            <p>Email: <a href="mailto:sophie.loiseau@clermont-fd.archi.fr">sophie.loiseau@clermont-fd.archi.fr</a></p>
+        </div>
+        <div class="contact-card">
+            <h2>Gueye Madicke</h2>
+            <p><strong>Webmaster/Community manager/développeur d'application</strong></p>
+            <p>Email: <a href="mailto:madicke.gueye@clermont-fd.archi.fr">madicke.gueye@clermont-fd.archi.fr</a></p>
+        </div>
+    </div>
 </div>
 {% endblock %}
