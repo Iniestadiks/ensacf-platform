@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Admin;
+use App\Entity\Teacher;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,8 +20,9 @@ class EventCrudController extends AbstractController
     #[Route('/', name: 'app_event_crud_index', methods: ['GET'])]
     public function index(EventRepository $eventRepository): Response
     {
+        $approvedEvents = $eventRepository->findBy(['status' => 'approved']);
         return $this->render('event_crud/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'events' => $approvedEvents,
         ]);
     }
 
@@ -31,7 +34,6 @@ class EventCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Handle file upload
             $file = $form->get('photo')->getData();
             if ($file) {
                 $filename = $this->generateUniqueFileName().'.'.$file->guessExtension();
@@ -44,6 +46,17 @@ class EventCrudController extends AbstractController
                 } catch (FileException $e) {
                     // Handle exception
                 }
+            }
+
+            $user = $this->getUser();
+            if ($user instanceof Admin) {
+                $event->setStatus('approved');
+                $event->setCreatedByAdmin($user);
+            } elseif ($user instanceof Teacher) {
+                $event->setStatus('pending');
+                $event->setCreatedBy($user);
+            } else {
+                throw new \LogicException('Unknown user type.');
             }
 
             $entityManager->persist($event);
@@ -73,7 +86,6 @@ class EventCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Handle file upload
             $file = $form->get('photo')->getData();
             if ($file) {
                 $filename = $this->generateUniqueFileName().'.'.$file->guessExtension();
@@ -109,7 +121,36 @@ class EventCrudController extends AbstractController
         return $this->redirectToRoute('app_event_crud_index');
     }
 
-    // Helper function to generate a unique file name
+    #[Route('/pending', name: 'app_event_crud_pending', methods: ['GET'])]
+    public function pending(EventRepository $eventRepository): Response
+    {
+        $pendingEvents = $eventRepository->findBy(['status' => 'pending']);
+
+        return $this->render('event_crud/pending.html.twig', ['events' => $pendingEvents]);
+    }
+
+    #[Route('/approve/{id}', name: 'app_event_crud_approve', methods: ['POST'])]
+    public function approve(Request $request, Event $event, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('approve'.$event->getId(), $request->request->get('_token'))) {
+            $event->setStatus('approved');
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_event_crud_pending');
+    }
+
+    #[Route('/reject/{id}', name: 'app_event_crud_reject', methods: ['POST'])]
+    public function reject(Request $request, Event $event, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('reject'.$event->getId(), $request->request->get('_token'))) {
+            $event->setStatus('rejected');
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_event_crud_pending');
+    }
+
     private function generateUniqueFileName()
     {
         return md5(uniqid());

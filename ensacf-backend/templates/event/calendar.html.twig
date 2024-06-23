@@ -1,0 +1,93 @@
+{# templates/event/calendar.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Calendrier des événements{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Calendrier des événements</h1>
+    <div id="legend" class="mb-4">
+        <h2>Légende des couleurs</h2>
+        <ul class="legend-list">
+            <li><span class="legend-color" style="background-color: #ff9f89;"></span> Exposition</li>
+            <li><span class="legend-color" style="background-color: #1e7cb4;"></span> Conférence</li>
+            <li><span class="legend-color" style="background-color: #a3b0fb;"></span> Table Ronde</li>
+            <li><span class="legend-color" style="background-color: #78c4d4;"></span> Séminaire</li>
+            <li><span class="legend-color" style="background-color: #d3a3fa;"></span> Résidence</li>
+            <li><span class="legend-color" style="background-color: #ffc107;"></span> Vie Étudiante</li>
+            <li><span class="legend-color" style="background-color: #6c757d;"></span> Événements Externes</li>
+            <li><span class="legend-color" style="background-color: #28a745;"></span> Autres</li>
+            <li><span class="legend-color" style="background-color: #d3d3d3;"></span> Vie de l'École</li>
+        </ul>
+    </div>
+    <button id="printButton" class="btn btn-primary mb-3">Imprimer le calendrier</button>
+    <div id="calendar"></div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/locales/fr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css" />
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var events = {{ events|raw }};
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'fr', // Change language to French
+            buttonText: {
+                today: 'Aujourd\'hui',
+                month: 'Mois',
+                week: 'Semaine',
+                day: 'Jour',
+                list: 'Liste'
+            },
+            events: events,
+            eventClick: function(info) {
+                info.jsEvent.preventDefault(); // don't let the browser navigate
+                if (info.event.url) {
+                    window.open(info.event.url);
+                }
+            }
+        });
+
+        calendar.render();
+
+        // Print button functionality
+        document.getElementById('printButton').addEventListener('click', function() {
+            var originalContent = document.body.innerHTML;
+            var calendarContent = document.getElementById('calendar').outerHTML;
+            document.body.innerHTML = calendarContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            window.location.reload();
+        });
+    });
+</script>
+
+<style>
+    .legend-list {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+    }
+    .legend-list li {
+        display: flex;
+        align-items: center;
+        margin: 0 15px;
+        font-size: 14px;
+    }
+    .legend-color {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+        border-radius: 3px;
+    }
+</style>
+{% endblock %}

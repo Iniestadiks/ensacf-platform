@@ -5,10 +5,14 @@ namespace App\Repository;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends ServiceEntityRepository<Event>
+ *
+ * @method Event|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Event|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Event[]    findAll()
+ * @method Event[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class EventRepository extends ServiceEntityRepository
 {
@@ -17,33 +21,68 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findByDate()
+    public function findByType($status = null)
     {
-        return $this->findBy([], ['startDate' => 'ASC']);
+        $qb = $this->createQueryBuilder('e')
+            ->orderBy('e.type', 'ASC');
+
+        if ($status) {
+            $qb->where('e.status = :status')
+               ->setParameter('status', $status);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
-    public function findByType()
+    public function findByTitle($status = null)
     {
-        return $this->findBy([], ['type' => 'ASC']);
+        $qb = $this->createQueryBuilder('e')
+            ->orderBy('e.title', 'ASC');
+
+        if ($status) {
+            $qb->where('e.status = :status')
+               ->setParameter('status', $status);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
-    public function findByTitle()
+    public function findByLocation($status = null)
     {
-        return $this->findBy([], ['title' => 'ASC']);
+        $qb = $this->createQueryBuilder('e')
+            ->orderBy('e.location', 'ASC');
+
+        if ($status) {
+            $qb->where('e.status = :status')
+               ->setParameter('status', $status);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
-    public function findByLocation()
+    public function findByDate($status = null)
     {
-        return $this->findBy([], ['location' => 'ASC']);
+        $qb = $this->createQueryBuilder('e')
+            ->orderBy('e.startDate', 'ASC');
+
+        if ($status) {
+            $qb->where('e.status = :status')
+               ->setParameter('status', $status);
+        }
+
+        return $qb->getQuery()->getResult();
     }
-    public function findEventsBetweenDates(\DateTime $start, \DateTime $end)
-{
-    return $this->createQueryBuilder('e')
-        ->where('e.startDate >= :start AND e.endDate <= :end')
-        ->setParameter('start', $start)
-        ->setParameter('end', $end)
-        ->orderBy('e.startDate', 'ASC')
-        ->getQuery()
-        ->getResult();
-}
+
+    public function findApprovedEventsBetweenDates(\DateTime $start, \DateTime $end)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.startDate BETWEEN :start AND :end')
+            ->andWhere('e.status = :status')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->setParameter('status', 'approved')
+            ->orderBy('e.startDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

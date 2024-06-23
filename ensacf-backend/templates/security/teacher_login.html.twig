@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Teacher Login{% endblock %}
+
+{% block body %}
+<form action="{{ path('teacher_login') }}" method="post">
+    <label for="username">Email:</label>
+    <input type="text" id="username" name="_username" value="{{ last_username }}" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="_password" required>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <button type="submit">Login</button>
+
+    {% if error %}
+        <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+</form>
+{% endblock %}

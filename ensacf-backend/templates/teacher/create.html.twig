@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouvel événement{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="my-4">Créer un nouvel événement</h1>
+
+    <div class="form-container">
+        {{ form_start(form) }}
+        
+        <div class="form-group">
+            {{ form_label(form.title, 'Titre') }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.title) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(form.type, 'Type d\'événement') }}
+            {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.type) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(form.description, 'Description') }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.description) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(form.location, 'Lieu') }}
+            {{ form_widget(form.location, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.location) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(form.startDate, 'Date de début') }}
+            {{ form_widget(form.startDate, {'attr': {'class': 'form-control', 'placeholder': 'jj/mm/aaaa'}}) }}
+            {{ form_errors(form.startDate) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(form.endDate, 'Date de fin') }}
+            {{ form_widget(form.endDate, {'attr': {'class': 'form-control', 'placeholder': 'jj/mm/aaaa'}}) }}
+            {{ form_errors(form.endDate) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(form.additionalInfo, 'Autres informations (besoin salle, inauguration date et besoin (poo cocktail))') }}
+            {{ form_widget(form.additionalInfo, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.additionalInfo) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(form.photo, 'Photo de l\'événement') }}
+            {{ form_widget(form.photo, {'attr': {'class': 'form-control-file'}}) }}
+            {{ form_errors(form.photo) }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary-custom">Enregistrer</button>
+        <a href="{{ path('teacher_events') }}" class="btn btn-secondary-custom">Retour à la liste</a>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

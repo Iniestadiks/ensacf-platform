@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reject Event{% endblock %}
+
+{% block body %}
+    <h1>Reject Event</h1>
+
+    <form action="{{ path('app_event_crud_reject', {'id': event.id}) }}" method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ event.id) }}">
+        <button class="btn btn-danger">Reject</button>
+    </form>
+
+    <a href="{{ path('app_event_crud_pending') }}">Back to pending events</a>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Déconnexion{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="my-4">Vous avez été déconnecté</h1>
+    <a href="{{ path('teacher_login') }}" class="btn btn-primary">Se reconnecter</a>
+</div>
+{% endblock %}

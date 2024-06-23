@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demandes en attente{% endblock %}
+
+{% block body %}
+<h1>Demandes en attente</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Lieu</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for event in events %}
+        <tr>
+            <td>{{ event.id }}</td>
+            <td>{{ event.title }}</td>
+            <td>{{ event.type }}</td>
+            <td>{{ event.description }}</td>
+            <td>{{ event.location }}</td>
+            <td>{{ event.startDate ? event.startDate|date('d/m/Y H:i') : '' }}</td>
+            <td>{{ event.endDate ? event.endDate|date('d/m/Y H:i') : '' }}</td>
+            <td>
+                <form action="{{ path('app_event_crud_approve', {'id': event.id}) }}" method="post" style="display:inline-block;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ event.id) }}">
+                    <button class="btn btn-success">Approuver</button>
+                </form>
+                <form action="{{ path('app_event_crud_reject', {'id': event.id}) }}" method="post" style="display:inline-block;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ event.id) }}">
+                    <button class="btn btn-danger">Rejeter</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="8" class="text-center">Aucune demande en attente</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('app_event_crud_index') }}" class="btn btn-primary">Retour à la liste</a>
+{% endblock %}

@@ -24,7 +24,7 @@ class Event
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     #[Assert\Image(
         mimeTypes: ["image/jpeg", "image/png"],
         maxSize: "5M"
@@ -40,6 +40,20 @@ class Event
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endDate = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $additionalInfo = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $status = null;
+
+    #[ORM\ManyToOne(targetEntity: Teacher::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Teacher $createdBy = null;
+
+    #[ORM\ManyToOne(targetEntity: Admin::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Admin $createdByAdmin = null;
+    private ?string $color = null; // Propriété temporaire
     public function getId(): ?int
     {
         return $this->id;
@@ -116,6 +130,19 @@ class Event
 
         return $this;
     }
+
+    public function getAdditionalInfo(): ?string
+    {
+        return $this->additionalInfo;
+    }
+
+    public function setAdditionalInfo(?string $additionalInfo): static
+    {
+        $this->additionalInfo = $additionalInfo;
+
+        return $this;
+    }
+
     public function getPhoto(): ?string
     {
         return $this->photo;
@@ -124,6 +151,52 @@ class Event
     public function setPhoto(?string $photo): self
     {
         $this->photo = $photo;
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?Teacher
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?Teacher $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getCreatedByAdmin(): ?Admin
+    {
+        return $this->createdByAdmin;
+    }
+
+    public function setCreatedByAdmin(?Admin $createdByAdmin): self
+    {
+        $this->createdByAdmin = $createdByAdmin;
+
+        return $this;
+    }
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
         return $this;
     }
 }

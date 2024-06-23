@@ -17,6 +17,14 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('startDate', DateType::class, [
+                'label' => 'Date de début',
+                'widget' => 'single_text'
+            ])
+            ->add('endDate', DateType::class, [
+                'label' => 'Date de fin',
+                'widget' => 'single_text'
+            ])
             ->add('title', TextType::class, [
                 'label' => 'Titre'
             ])
@@ -24,30 +32,30 @@ class EventType extends AbstractType
                 'label' => 'Type d\'événement',
                 'choices' => [
                     'Exposition' => 'exposition',
+                    'Conférence' => 'conference',
                     'Table Ronde' => 'table_ronde',
+                    'Séminaire' => 'seminaire',
                     'Résidence' => 'residence',
-                    'Instance' => 'instance',
-                    'Autres' => 'autres'
+                    'Vie Étudiante (Bistrot d\'archi... Association)' => 'vie_etudiante',
+                    'Événements Externes' => 'evenements_externes',
+                    'Autres' => 'autres',
+                    'Vie de l\'École (Instance, Réunion Interne)' => 'vie_ecole'
                 ]
-            ])
-            ->add('description', TextareaType::class, [
-                'label' => 'Description'
             ])
             ->add('location', TextType::class, [
                 'label' => 'Lieu'
             ])
-            ->add('startDate', DateType::class, [
-                'label' => 'Date de début',
-                'widget' => 'single_text'  // Utilise un seul champ de type texte pour la date
+            ->add('description', TextareaType::class, [
+                'label' => 'Description'
             ])
-            ->add('endDate', DateType::class, [
-                'label' => 'Date de fin',
-                'widget' => 'single_text'  // Utilise un seul champ de type texte pour la date
+            ->add('additionalInfo', TextareaType::class, [
+                'label' => 'Autres informations (besoin salle, inauguration, besoin (pô cocktail))',
+                'required' => false
             ])
             ->add('photo', FileType::class, [
                 'label' => 'Photo de l\'événement',
-                'mapped' => false,  // Ne pas mapper automatiquement à la base de données
-                'required' => false  // Rendre le champ optionnel
+                'mapped' => false,
+                'required' => false
             ]);
     }
 
