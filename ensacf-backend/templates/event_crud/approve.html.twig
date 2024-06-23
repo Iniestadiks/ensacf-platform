@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Approve Event{% endblock %}
+
+{% block body %}
+    <h1>Approve Event</h1>
+
+    <form action="{{ path('app_event_crud_approve', {'id': event.id}) }}" method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ event.id) }}">
+        <button class="btn btn-success">Approve</button>
+    </form>
+
+    <a href="{{ path('app_event_crud_pending') }}">Back to pending events</a>
+{% endblock %}

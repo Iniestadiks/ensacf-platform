@@ -1,10 +1,13 @@
+# config/services.yaml
+
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-      photos_directory: '%kernel.project_dir%/public/uploads/photos'
+    photos_directory: '%kernel.project_dir%/public/uploads/photos'
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -19,6 +22,11 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    # Doctrine Fixtures Bundle configuration
+    App\DataFixtures\:
+        resource: '../src/DataFixtures'
+        tags: ['doctrine.fixture.orm']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

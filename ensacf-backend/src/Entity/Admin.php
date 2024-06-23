@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AdminRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -21,6 +23,17 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = ['ROLE_ADMIN'];
+
+    #[ORM\OneToMany(mappedBy: 'createdByAdmin', targetEntity: Event::class)]
+    private Collection $events;
+
+    public function __construct()
+    {
+        $this->events = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,7 +64,13 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return ['ROLE_ADMIN'];  // Tous les utilisateurs sont des admins
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
     }
 
     public function eraseCredentials()
@@ -64,8 +83,30 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function getUsername(): string
+    public function getEvents(): Collection
     {
-        return $this->getUserIdentifier();
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setCreatedByAdmin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getCreatedByAdmin() === $this) {
+                $event->setCreatedByAdmin(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -43,6 +43,18 @@
         {{ form_start(form) }}
         
         <div class="form-group">
+            {{ form_label(form.startDate, 'Date de début') }}
+            {{ form_widget(form.startDate, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.startDate) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(form.endDate, 'Date de fin') }}
+            {{ form_widget(form.endDate, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.endDate) }}
+        </div>
+        
+        <div class="form-group">
             {{ form_label(form.title, 'Titre') }}
             {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.title) }}
@@ -55,27 +67,21 @@
         </div>
         
         <div class="form-group">
-            {{ form_label(form.description, 'Description') }}
-            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.description) }}
-        </div>
-        
-        <div class="form-group">
             {{ form_label(form.location, 'Lieu') }}
             {{ form_widget(form.location, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.location) }}
         </div>
         
         <div class="form-group">
-            {{ form_label(form.startDate, 'Date de début') }}
-            {{ form_widget(form.startDate, {'attr': {'class': 'form-control', 'placeholder': 'jj/mm/aaaa'}}) }}
-            {{ form_errors(form.startDate) }}
+            {{ form_label(form.description, 'Description') }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.description) }}
         </div>
         
         <div class="form-group">
-            {{ form_label(form.endDate, 'Date de fin') }}
-            {{ form_widget(form.endDate, {'attr': {'class': 'form-control', 'placeholder': 'jj/mm/aaaa'}}) }}
-            {{ form_errors(form.endDate) }}
+            {{ form_label(form.additionalInfo, 'Autres informations (besoin salle, inauguration, besoin (pô cocktail))') }}
+            {{ form_widget(form.additionalInfo, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.additionalInfo) }}
         </div>
         
         <div class="form-group">

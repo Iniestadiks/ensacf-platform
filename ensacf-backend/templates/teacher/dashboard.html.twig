@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord des enseignants{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="my-4">Tableau de bord des enseignants</h1>
+    <p>Bienvenue sur votre tableau de bord. Utilisez le menu pour naviguer.</p>
+
+    <a href="{{ path('teacher_events') }}" class="btn btn-primary">Voir les événements</a>
+    <a href="{{ path('teacher_create_event') }}" class="btn btn-success">Créer un événement</a>
+    <a href="{{ path('teacher_check_availability') }}" class="btn btn-info">Vérifier la disponibilité</a>
+    <a href="{{ path('teacher_logout') }}" class="btn btn-warning">Déconnexion</a>
+</div>
+{% endblock %}

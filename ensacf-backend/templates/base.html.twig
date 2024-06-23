@@ -1,113 +1,189 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="{{ asset('images/logo.png') }}">
-        <link href="https://fonts.googleapis.com/css2?family=Marianne:wght@400;700&display=swap" rel="stylesheet"> <!-- Police Marianne -->
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-            <style>
-                body {
-                    font-family: 'Marianne', Arial, sans-serif; /* Utilisation de la police Marianne */
-                    background-color: #f0f0f5;
-                    margin: 0;
-                    padding: 0;
-                }
-                header {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    padding: 10px;
-                    background-color: #0053b3;
-                    color: white;
-                }
-                header img {
-                    max-height: 50px;
-                }
-                nav ul {
-                    list-style-type: none;
-                    padding: 0;
-                    margin: 0;
-                }
-                nav ul li {
-                    display: inline;
-                    margin: 0 10px;
-                }
-                nav ul li a {
-                    text-decoration: none;
-                    color: white;
-                    font-weight: bold;
-                }
-                .banner img {
-                    width: 100%;
-                    height: auto;
-                }
-                .container {
-                    margin: 20px;
-                }
-                .btn {
-                    display: inline-block;
-                    padding: 10px 20px;
-                    margin: 10px;
-                    border-radius: 5px;
-                    text-decoration: none;
-                    color: white;
-                    background-color: #0053b3;
-                    transition: background-color 0.3s;
-                }
-                .btn:hover {
-                    background-color: #003d80;
-                }
-                .btn-primary {
-                    background-color: #0053b3;
-                }
-                .btn-info {
-                    background-color: #1e7cb4;
-                }
-                .btn-secondary {
-                    background-color: #6c757d;
-                }
-                .btn-success {
-                    background-color: #28a745;
-                }
-                .btn-warning {
-                    background-color: #ffc107;
-                }
-            </style>
-        {% endblock %}
-    </head>
-    <body>
-        <header>
-            <a href="{{ path('home') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo ENSACF">
-            </a>
-            <nav>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="{{ asset('images/logo.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Marianne:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        <style>
+            body {
+                font-family: 'Marianne', Arial, sans-serif;
+                background-color: white;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px;
+                background-color: white;
+                color: black;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            header img {
+                max-height: 50px;
+            }
+            nav ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                gap: 15px;
+                position: relative;
+            }
+            nav ul li {
+                position: relative;
+            }
+            nav ul li a {
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+                padding: 10px;
+                display: block;
+                transition: background-color 0.3s, color 0.3s;
+            }
+            nav ul li a:hover {
+                background-color: #0053b3;
+                color: white;
+                border-radius: 5px;
+            }
+            nav ul li ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                background-color: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+            nav ul li:hover > ul {
+                display: block;
+            }
+            nav ul li ul li a {
+                padding: 10px;
+                font-weight: normal;
+            }
+            .banner img {
+                width: 100%;
+                height: auto;
+            }
+            .container {
+                flex: 1;
+                margin: 20px;
+            }
+            .btn {
+                display: inline-block;
+                padding: 10px 20px;
+                margin: 10px;
+                border-radius: 5px;
+                text-decoration: none;
+                color: white;
+                background-color: #0053b3;
+                transition: background-color 0.3s;
+            }
+            .btn:hover {
+                background-color: #003d80;
+            }
+            .btn-primary {
+                background-color: #0053b3;
+            }
+            .btn-info {
+                background-color: #1e7cb4;
+            }
+            .btn-secondary {
+                background-color: #6c757d;
+            }
+            .btn-success {
+                background-color: #28a745;
+            }
+            .btn-warning {
+                background-color: #ffc107;
+            }
+            footer {
+                background-color: #f8f9fa;
+                padding: 20px;
+                text-align: center;
+                border-top: 1px solid #e9ecef;
+                margin-top: 20px;
+                position: relative;
+                bottom: 0;
+                width: 100%;
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+<header>
+    <a href="{{ path('home') }}">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo ENSACF">
+    </a>
+    <nav>
+        <ul>
+            <li><a href="{{ path('home') }}">Accueil</a></li>
+            <li>
+                <a href="#">Événements</a>
                 <ul>
-                    <li><a href="{{ path('home') }}">Accueil</a></li>
-                    <li><a href="{{ path('public_events') }}">Événements</a></li>
-                    <li><a href="{{ path('app_about') }}">À propos</a></li>
-                    <li><a href="{{ path('app_contact') }}">Contact</a></li>
-                    {% if app.user %}
-                        <li><a href="{{ path('app_event_crud_index') }}">Gestion des événements</a></li>
-                        <li><a href="{{ path('logout') }}">Déconnexion</a></li>
-                    {% else %}
-                        <li><a href="{{ path('login') }}">Connexion</a></li>
-                    {% endif %}
+                    <li><a href="{{ path('public_events') }}">Voir les événements</a></li>
+                    <li><a href="{{ path('events_calendar') }}">Voir le planning</a></li>
+                    <li><a href="{{ path('glossary') }}">Glossaire</a></li>
                 </ul>
-            </nav>
-        </header>
+            </li>
+            <li><a href="{{ path('app_about') }}">À propos</a></li>
+            <li><a href="{{ path('app_contact') }}">Contact</a></li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a href="#">Espace Administration</a>
+                    <ul>
+                        <li><a href="{{ path('app_event_crud_index') }}">Gestion des événements</a></li>
+                        <li><a href="{{ path('app_event_crud_pending') }}">Demandes en attente</a></li>
+                        <li><a href="{{ path('logout') }}">Déconnexion</a></li>
+                    </ul>
+                </li>
+            {% elseif is_granted('ROLE_TEACHER') %}
+                <li>
+                    <a href="#">Espace Enseignant</a>
+                    <ul>
+                        <li><a href="{{ path('teacher_dashboard') }}">Tableau de bord</a></li>
+                        <li><a href="{{ path('teacher_events') }}">Voir les événements</a></li>
+                        <li><a href="{{ path('teacher_create_event') }}">Créer un événement</a></li>
+                        <li><a href="{{ path('teacher_check_availability') }}">Vérifier la disponibilité</a></li>
+                        <li><a href="{{ path('teacher_logout') }}">Déconnexion</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li><a href="{{ path('login') }}">Connexion Admin</a></li>
+                <li><a href="{{ path('teacher_login') }}">Connexion Enseignant</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
 
-        <div class="banner">
-            <img src="{{ asset('images/banner.jpg') }}" alt="Bannière ENSACF">
-        </div>
+<div class="banner">
+    <img src="{{ asset('images/banner.jpg') }}" alt="Bannière ENSACF">
+</div>
 
-        <div class="container">
-            {% block body %}{% endblock %}
-        </div>
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </body>
+<footer>
+    <p>&copy; 2024. Développé par GUEYE Madicke.</p>
+</footer>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+{% endblock %}
+</body>
 </html>
+ on va travailler sur le home. au lieu de site on doit mettre l'application permets de. tu conais toute sles fonctionnalité de l'application, çaa doit permettre aux enseignants de  au premier de leur dire vous avez une proposition d''événement ? 

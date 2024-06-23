@@ -2,7 +2,46 @@ controllers:
     resource: ../src/Controller/
     type: attribute
 
-api_login_check:
-    path: /api/login_check
-    methods: [POST]
-    controller: lexik_jwt_authentication.security.jwt_authenticator:authenticate
+login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+teacher_login:
+    path: /teacher/login
+    controller: App\Controller\SecurityController::teacherLogin
+
+teacher_dashboard:
+    path: /teacher/dashboard
+    controller: App\Controller\TeacherController::dashboard
+
+event_crud_pending:
+    path: /event/crud/pending
+    controller: App\Controller\EventCrudController::pending
+    
+event_crud_approve:
+    path: /event/crud/approve/{id}
+    controller: App\Controller\EventCrudController::approve
+
+event_crud_reject:
+    path: /event/crud/reject/{id}
+    controller: App\Controller\EventCrudController::reject
+
+app_event_crud_show:
+    path: /event/crud/{id}
+    controller: App\Controller\EventCrudController::show
+
+events_calendar:
+    path: /events/calendar
+    controller: App\Controller\EventController::calendar
+
+public_events:
+    path: /events
+    controller: App\Controller\EventController::list
+
+filter_events:
+    path: /events/filter
+    controller: App\Controller\EventController::filterEvents
+
+public_event_show:
+    path: /events/{id}
+    controller: App\Controller\EventController::show

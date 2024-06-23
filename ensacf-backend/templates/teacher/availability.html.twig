@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Disponibilité des salles d'exposition{% endblock %}
+
+{% block body %}
+    <h1>Disponibilité des salles d'exposition</h1>
+
+    <form method="get" action="{{ path('teacher_check_availability') }}">
+        <div class="form-group">
+            <label for="startDate">Date de début</label>
+            <input type="date" id="startDate" name="startDate" value="{{ startDate }}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="endDate">Date de fin</label>
+            <input type="date" id="endDate" name="endDate" value="{{ endDate }}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Vérifier la disponibilité</button>
+    </form>
+
+    {% if startDate and endDate %}
+        {% if isAvailable %}
+            <div class="alert alert-success mt-4">
+                La salle d'exposition est disponible pour les dates sélectionnées.
+            </div>
+        {% else %}
+            <div class="alert alert-danger mt-4">
+                La salle d'exposition n'est pas disponible pour les dates sélectionnées.
+            </div>
+        {% endif %}
+
+        <h2>Événements existants entre le {{ startDate }} et le {{ endDate }}</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Lieu</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                    <tr>
+                        <td>{{ event.id }}</td>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.type }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>{{ event.location }}</td>
+                        <td>{{ event.startDate ? event.startDate|date('d/m/Y H:i') : '' }}</td>
+                        <td>{{ event.endDate ? event.endDate|date('d/m/Y H:i') : '' }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center">Aucun événement trouvé pour les dates sélectionnées.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
