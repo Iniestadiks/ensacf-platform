@@ -26,6 +26,17 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_pending_teachers');
     }
 
+    #[Route('/admin/reject/teacher/{id}', name: 'admin_reject_teacher')]
+    public function rejectTeacher(Teacher $teacher, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($teacher);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Teacher account has been rejected and removed.');
+
+        return $this->redirectToRoute('admin_pending_teachers');
+    }
+
     #[Route('/admin/pending/teachers', name: 'admin_pending_teachers')]
     public function pendingTeachers(TeacherRepository $teacherRepository): Response
     {

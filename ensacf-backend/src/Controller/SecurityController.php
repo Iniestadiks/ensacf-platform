@@ -1,5 +1,7 @@
 <?php
 
+// src/Controller/SecurityController.php
+
 namespace App\Controller;
 
 use App\Entity\Teacher;
@@ -13,6 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -82,24 +85,29 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/teacher/register', name: 'teacher_register')]
-    public function registerTeacher(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
+    public function registerTeacher(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
         $teacher = new Teacher();
         $form = $this->createForm(TeacherRegistrationFormType::class, $teacher);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $hashedPassword = $passwordHasher->hashPassword($teacher, $teacher->getPassword());
-            $teacher->setPassword($hashedPassword);
-            $teacher->setRoles(['ROLE_TEACHER']);
-            $teacher->setApproved(false); // Set approved to false by default
+            $errors = $validator->validate($teacher);
+            if (count($errors) > 0) {
+                $this->addFlash('error', (string) $errors);
+            } else {
+                $hashedPassword = $passwordHasher->hashPassword($teacher, $teacher->getPassword());
+                $teacher->setPassword($hashedPassword);
+                $teacher->setRoles(['ROLE_TEACHER']);
+                $teacher->setApproved(false); // Set approved to false by default
 
-            $entityManager->persist($teacher);
-            $entityManager->flush();
+                $entityManager->persist($teacher);
+                $entityManager->flush();
 
-            $this->addFlash('success', 'Your account has been created and is pending approval.');
+                $this->addFlash('success', 'Votre compte a été créé et est en attente d\'approbation.');
 
-            return $this->redirectToRoute('teacher_login');
+                return $this->redirectToRoute('teacher_login');
+            }
         }
 
         return $this->render('security/teacher_register.html.twig', [

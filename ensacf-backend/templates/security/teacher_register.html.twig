@@ -40,12 +40,27 @@
         .btn-primary:hover {
             background-color: #003d80;
         }
+        .flash-message {
+            margin-bottom: 20px;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
 <div class="container">
     <h1>Inscription Enseignant</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success flash-message">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger flash-message">
+            {{ message }}
+        </div>
+    {% endfor %}
 
     {{ form_start(registrationForm) }}
         <div class="form-group">
