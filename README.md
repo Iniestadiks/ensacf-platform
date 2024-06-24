@@ -3,17 +3,17 @@ Introduction
 Bienvenue sur la plateforme de gestion des événements de l'École Nationale Supérieure d'Architecture de Clermont-Ferrand (ENSACF). Cette application permet aux enseignants de proposer des événements, aux administrateurs de les approuver et de les gérer, et à tous les utilisateurs de consulter les événements approuvés.
 
 Fonctionnalités
-Gestion des événements :
+Gestion des événements
 Création, modification et suppression d'événements.
 Système d'approbation des événements par les administrateurs.
 Calendrier interactif pour visualiser les événements.
-Tableaux de bord :
+Tableaux de bord
 Tableau de bord personnalisé pour les enseignants et les administrateurs.
 Visualisation des demandes en attente et des événements approuvés.
-Système d'authentification :
+Système d'authentification
 Inscription et connexion des enseignants.
 Gestion des administrateurs par d'autres administrateurs.
-Responsivité :
+Responsivité
 Interface adaptative pour les appareils mobiles avec menu hamburger.
 Prérequis
 PHP 7.4 ou supérieur
@@ -70,4 +70,4 @@ Contribution
 Les contributions sont les bienvenues ! Veuillez ouvrir une issue ou soumettre une pull request pour proposer des améliorations ou signaler des bugs.
 
 Licence
-Ce projet est sous licence MIT. Consultez le fichier LICENSE pour plus d'informations.****
+Ce projet est sous licence MIT. Consultez le fichier LICENSE pour plus d'informations.
