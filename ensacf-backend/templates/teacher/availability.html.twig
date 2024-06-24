@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Disponibilité des salles d'exposition{% endblock %}
+{% block title %}Disponibilité de la salle d'exposition{% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -68,7 +68,7 @@
 
 {% block body %}
 <div class="container">
-    <h1>Disponibilité des salles d'exposition</h1>
+    <h1>Disponibilité de la salle d'exposition</h1>
 
     <form method="get" action="{{ path('teacher_check_availability') }}">
         <div class="form-group">
